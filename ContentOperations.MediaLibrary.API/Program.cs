@@ -7,6 +7,8 @@ namespace ContentOperations.MediaLibrary.API
     using ContentOperations.MediaLibrary.Application.Services;
     using ContentOperations.MediaLibrary.Data;
     using ContentOperations.MediaLibrary.Data.Repositories;
+    using ContentOperations.MediaLibrary.Domain.CommandHandlers;
+    using ContentOperations.MediaLibrary.Domain.Commands;
     using ContentOperations.MediaLibrary.Domain.Interfaces;
 
     using MediatR;
@@ -40,8 +42,11 @@ namespace ContentOperations.MediaLibrary.API
             //Domain Bus
             builder.Services.AddScoped<IEventBus, RabbitMQBus>();
 
+            //Domain MediaLibraryCommands
+            builder.Services.AddScoped<IRequestHandler<CreateFileStatusCommand, bool>, FileStatusCommandHandler>();
+
             //Application Services
-            builder.Services.AddScoped<IMediaLibraryConfigurationService, MediaLibraryConfigurationService>();
+            builder.Services.AddScoped<IMediaLibraryService, MediaLibraryService>();
 
             //Data
             builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
@@ -51,7 +56,7 @@ namespace ContentOperations.MediaLibrary.API
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
             //Services
-            builder.Services.AddScoped<IMediaLibraryConfigurationService, MediaLibraryConfigurationService>();
+            builder.Services.AddScoped<IMediaLibraryService, MediaLibraryService>();
 
             var app = builder.Build();
 

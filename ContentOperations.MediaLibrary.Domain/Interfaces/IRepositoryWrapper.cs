@@ -10,6 +10,8 @@
     {
         IStorageTypeRepository StorageType { get; }
 
+        IStorageFolderRepository StorageFolder { get; }
+
         Task SaveAsync();
     }
 }

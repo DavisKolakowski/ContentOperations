@@ -1,8 +1,7 @@
 ﻿namespace ContentOperations.MediaLibrary.Application.Mapper
 {
     using AutoMapper;
-
-    using ContentOperations.MediaLibrary.Application.Mapper.DataTransferObjects;
+    using ContentOperations.MediaLibrary.Application.DataTransferObjects;
     using ContentOperations.MediaLibrary.Domain.Entities;
 
     using System;
@@ -16,8 +15,10 @@
         public MappingProfile()
         {
             CreateMap<StorageType, StorageTypeDTO>()
-                .ForMember(dto => dto.StorageFolderPaths, opt =>
-                    opt.MapFrom(src => src.StorageFolders.Select(src => src.FolderPath)));
+                .ForMember(dto => dto.StorageFolderIds, opt =>
+                    opt.MapFrom(src => src.StorageFolders.Select(src => src.Id)));
+
+            CreateMap<StorageFolder, StorageFolderDTO>();
         }
     }
 }

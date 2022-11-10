@@ -1,4 +1,4 @@
-﻿namespace ContentOperations.MediaLibrary.Application.Mapper.DataTransferObjects
+﻿namespace ContentOperations.MediaLibrary.Application.DataTransferObjects
 {
     using ContentOperations.MediaLibrary.Domain.Entities;
 
@@ -14,8 +14,6 @@
 
         public string Name { get; set; }
 
-        //public string? Description { get; set; }
-
-        public List<string> StorageFolderPaths { get; set; }
+        public List<int> StorageFolderIds { get; set; }
     }
 }

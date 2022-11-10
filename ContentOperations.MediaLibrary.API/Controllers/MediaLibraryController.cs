@@ -2,6 +2,7 @@
 
 namespace ContentOperations.MediaLibrary.API.Controllers
 {
+    using ContentOperations.MediaLibrary.Application.DataTransferObjects;
     using ContentOperations.MediaLibrary.Application.Interfaces;
     using ContentOperations.MediaLibrary.Domain.Entities;
 
@@ -11,9 +12,9 @@ namespace ContentOperations.MediaLibrary.API.Controllers
     [ApiController]
     public class MediaLibraryController : ControllerBase
     {
-        private readonly IMediaLibraryConfigurationService _service;
+        private readonly IMediaLibraryService _service;
 
-        public MediaLibraryController(IMediaLibraryConfigurationService service)
+        public MediaLibraryController(IMediaLibraryService service)
         {
             this._service = service;
         }
@@ -21,7 +22,15 @@ namespace ContentOperations.MediaLibrary.API.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<StorageFolder>> Get()
         {
-            return Ok(this._service.GetStorageTypeFolders());
+            return Ok(this._service.GetStorageFolders());
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] MediaFileStatusDTO dto)
+        {
+            this._service.GetMediaFileStatus(dto);
+
+            return this.Ok(dto);
         }
     }
 }

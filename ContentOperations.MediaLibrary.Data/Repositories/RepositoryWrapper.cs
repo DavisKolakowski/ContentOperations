@@ -14,10 +14,13 @@
 
         private IStorageTypeRepository _storageType;
 
+        private IStorageFolderRepository _storageFolder;
+
         public RepositoryWrapper(MediaLibraryContext dbContext)
         {
             this._dbContext = dbContext;
             this._storageType = this.StorageType;
+            this._storageFolder = this.StorageFolder;
         }
 
         public IStorageTypeRepository StorageType
@@ -29,6 +32,18 @@
                     this._storageType = new StorageTypeRepository(this._dbContext);
                 }
                 return this._storageType;
+            }
+        }
+
+        public IStorageFolderRepository StorageFolder
+        {
+            get
+            {
+                if (this._storageFolder == null)
+                {
+                    this._storageFolder = new StorageFolderRepository(this._dbContext);
+                }
+                return this._storageFolder;
             }
         }
 
