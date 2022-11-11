@@ -18,6 +18,7 @@ namespace ContentOperations.MediaLibrary.API
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.SqlServer;
+    using Serilog;
 
     public class Program
     {
@@ -26,6 +27,8 @@ namespace ContentOperations.MediaLibrary.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            builder.Host.UseSerilog((ctx, lc) => lc
+                .WriteTo.Console());
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,7 +45,14 @@ namespace ContentOperations.MediaLibrary.API
             );
 
             //Domain Bus
-            builder.Services.AddScoped<IEventBus, RabbitMQBus>();
+            builder.Services.AddSingleton<IEventBus, RabbitMQBus>(sp =>
+            {
+                var scopeFactory = sp.GetRequiredService<IServiceScopeFactory>();
+                return new RabbitMQBus(sp.GetService<IMediator>(), scopeFactory);
+            });
+
+            //Subscriptions
+            builder.Services.AddScoped<MediaStatusEventHandler>();
 
             //Domain Events
             builder.Services.AddScoped<IEventHandler<MediaStatusCreatedEvent>, MediaStatusEventHandler>();
@@ -65,9 +75,6 @@ namespace ContentOperations.MediaLibrary.API
             builder.Services.AddScoped<IMediaLibraryService, MediaLibraryService>();
 
             var app = builder.Build();
-
-            var eventbus = app.Services.GetRequiredService<IEventBus>();
-            eventbus.Subscribe<MediaStatusCreatedEvent, MediaStatusEventHandler>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

@@ -38,12 +38,12 @@
 
         public void GetMediaFileStatus(MediaStatusDTO fileStatus)
         {
-            var createFileStatusCommand = new CreateMediaStatusCommand(
+            var createMediaStatusCommand = new CreateMediaStatusCommand(
                     fileStatus.FromStorage,
                 fileStatus.FileName
                 );
 
-            _bus.SendCommand(createFileStatusCommand);
+            _bus.SendCommand(createMediaStatusCommand);
         }
     }
 }
