@@ -9,10 +9,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface IMediaLibraryService
+    public interface IMediaStatusService
     {
-        IEnumerable<StorageTypeDTO> GetStorageTypes();
-
-        void GetMediaFileStatus(MediaStatusDTO fileStatus);
+        IEnumerable<StorageFolderDTO> GetStorageFoldersForLibrary(int storageTypeId);
     }
 }

@@ -8,13 +8,13 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class FileStatusCreatedEvent : Event
+    public class MediaStatusCreatedEvent : Event
     {
         public int From { get; private set; }
 
         public string FileName { get; private set; }
 
-        public FileStatusCreatedEvent(int from, string fileName)
+        public MediaStatusCreatedEvent(int from, string fileName)
         {
             this.From = from;
             this.FileName = fileName;

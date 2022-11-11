@@ -13,19 +13,19 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public class FileStatusCommandHandler : IRequestHandler<CreateFileStatusCommand, bool>
+    public class MediaStatusCommandHandler : IRequestHandler<CreateMediaStatusCommand, bool>
     {
         private readonly IEventBus _bus;
 
-        public FileStatusCommandHandler(IEventBus bus)
+        public MediaStatusCommandHandler(IEventBus bus)
         {
             this._bus = bus;
         }
 
-        public Task<bool> Handle(CreateFileStatusCommand request, CancellationToken cancellationToken)
+        public Task<bool> Handle(CreateMediaStatusCommand request, CancellationToken cancellationToken)
         {
             //Publish event to RabbitMQ
-            this._bus.Publish(new FileStatusCreatedEvent(request.From, request.FileName));
+            this._bus.Publish(new MediaStatusCreatedEvent(request.From, request.FileName));
             return Task.FromResult(true);
         }
     }

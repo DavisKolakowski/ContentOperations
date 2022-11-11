@@ -8,7 +8,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public abstract class FileStatusCommand : Command
+    public abstract class MediaStatusCommand : Command
     {
         public int From { get; protected set; }
 

@@ -12,23 +12,23 @@ namespace ContentOperations.MediaLibrary.API.Controllers
     [ApiController]
     public class MediaLibraryController : ControllerBase
     {
-        private readonly IMediaLibraryService _service;
+        private readonly IMediaLibraryService _mediaLibraryService;
 
-        public MediaLibraryController(IMediaLibraryService service)
+        public MediaLibraryController(IMediaLibraryService mediaLibraryService)
         {
-            this._service = service;
+            this._mediaLibraryService = mediaLibraryService;
         }
         // GET: api/<MediaLibraryController>
         [HttpGet]
-        public ActionResult<IEnumerable<StorageFolder>> Get()
+        public ActionResult<IEnumerable<StorageType>> Get()
         {
-            return Ok(this._service.GetStorageFolders());
+            return Ok(this._mediaLibraryService.GetStorageTypes());
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] MediaFileStatusDTO dto)
+        public IActionResult Post([FromBody] MediaStatusDTO dto)
         {
-            this._service.GetMediaFileStatus(dto);
+            this._mediaLibraryService.GetMediaFileStatus(dto);
 
             return this.Ok(dto);
         }

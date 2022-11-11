@@ -15,35 +15,25 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class MediaLibraryService : IMediaLibraryService
+    public class MediaStatusService : IMediaStatusService
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryWrapper _wrapper;
         private readonly IEventBus _bus;
 
-        public MediaLibraryService(IMapper mapper, IRepositoryWrapper wrapper, IEventBus bus)
+        public MediaStatusService(IMapper mapper, IRepositoryWrapper wrapper, IEventBus bus)
         {
             this._mapper = mapper;
             this._wrapper = wrapper;
             this._bus = bus;
         }
 
-        public IEnumerable<StorageTypeDTO> GetStorageTypes()
+        public IEnumerable<StorageFolderDTO> GetStorageFoldersForLibrary(int storageTypeId)
         {
-            var data = this._wrapper.StorageType.GetAllStorageTypes().Result;
-            var dto = this._mapper.Map<IEnumerable<StorageTypeDTO>>(data);
+            var data = this._wrapper.StorageFolder.GetFoldersForStorageType(storageTypeId).Result;
+            var dto = this._mapper.Map<IEnumerable<StorageFolderDTO>>(data);
 
             return dto;
-        }
-
-        public void GetMediaFileStatus(MediaStatusDTO fileStatus)
-        {
-            var createFileStatusCommand = new CreateMediaStatusCommand(
-                    fileStatus.FromStorage,
-                fileStatus.FileName
-                );
-
-            _bus.SendCommand(createFileStatusCommand);
         }
     }
 }

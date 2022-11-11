@@ -6,9 +6,9 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class CreateFileStatusCommand : FileStatusCommand
+    public class CreateMediaStatusCommand : MediaStatusCommand
     {
-        public CreateFileStatusCommand(int from, string fileName) 
+        public CreateMediaStatusCommand(int from, string fileName) 
         { 
             this.From = from;
             this.FileName = fileName;

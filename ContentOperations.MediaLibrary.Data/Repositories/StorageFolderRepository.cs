@@ -25,10 +25,10 @@
                 .ToListAsync();
         }
 
-        public async Task<StorageFolder> GetStorageFolderById(int id)
+        public async Task<IEnumerable<StorageFolder>> GetFoldersForStorageType(int storageTypeId)
         {
-            return await FindBy(sf => sf.Id == id)
-                .FirstAsync();
+            return await FindBy(sf => sf.StorageTypeId == storageTypeId)
+                .ToListAsync();
         }
     }
 }

@@ -12,6 +12,6 @@
     {
         Task<IEnumerable<StorageFolder>> GetAllStorageFolders();
 
-        Task<StorageFolder> GetStorageFolderById(int id);
+        Task<IEnumerable<StorageFolder>> GetFoldersForStorageType(int storageTypeId);
     }
 }

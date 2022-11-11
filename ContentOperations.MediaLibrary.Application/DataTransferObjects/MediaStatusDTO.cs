@@ -6,9 +6,9 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class MediaFileStatusDTO
+    public class MediaStatusDTO
     {
-        public int FromFolder { get; set; }
+        public int FromStorage { get; set; }
 
         public string FileName { get; set; }
     }

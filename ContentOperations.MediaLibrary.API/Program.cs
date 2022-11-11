@@ -9,6 +9,8 @@ namespace ContentOperations.MediaLibrary.API
     using ContentOperations.MediaLibrary.Data.Repositories;
     using ContentOperations.MediaLibrary.Domain.CommandHandlers;
     using ContentOperations.MediaLibrary.Domain.Commands;
+    using ContentOperations.MediaLibrary.Domain.EventHandlers;
+    using ContentOperations.MediaLibrary.Domain.Events;
     using ContentOperations.MediaLibrary.Domain.Interfaces;
 
     using MediatR;
@@ -42,11 +44,15 @@ namespace ContentOperations.MediaLibrary.API
             //Domain Bus
             builder.Services.AddScoped<IEventBus, RabbitMQBus>();
 
+            //Domain Events
+            builder.Services.AddScoped<IEventHandler<MediaStatusCreatedEvent>, MediaStatusEventHandler>();
+
             //Domain MediaLibraryCommands
-            builder.Services.AddScoped<IRequestHandler<CreateFileStatusCommand, bool>, FileStatusCommandHandler>();
+            builder.Services.AddScoped<IRequestHandler<CreateMediaStatusCommand, bool>, MediaStatusCommandHandler>();
 
             //Application Services
             builder.Services.AddScoped<IMediaLibraryService, MediaLibraryService>();
+            builder.Services.AddScoped<IMediaStatusService, MediaStatusService>();
 
             //Data
             builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
@@ -59,6 +65,9 @@ namespace ContentOperations.MediaLibrary.API
             builder.Services.AddScoped<IMediaLibraryService, MediaLibraryService>();
 
             var app = builder.Build();
+
+            var eventbus = app.Services.GetRequiredService<IEventBus>();
+            eventbus.Subscribe<MediaStatusCreatedEvent, MediaStatusEventHandler>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
